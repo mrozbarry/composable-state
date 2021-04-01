@@ -1,0 +1,14 @@
+{
+  "name": "deepImmutable",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "ava": "^3.15.0",
+    "esm": "^3.2.25"
+  },
+  "ava": {
+    "files": ["src/**/*.test.js"],
+    "require": ["esm"]
+  }
+}
