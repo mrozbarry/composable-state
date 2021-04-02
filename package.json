@@ -1,14 +1,22 @@
 {
   "name": "deepImmutable",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "test": "nyc ava"
+  },
   "devDependencies": {
     "ava": "^3.15.0",
-    "esm": "^3.2.25"
+    "esm": "^3.2.25",
+    "nyc": "^15.1.0"
   },
   "ava": {
-    "files": ["src/**/*.test.js"],
-    "require": ["esm"]
+    "files": [
+      "src/**/*.test.js"
+    ],
+    "require": [
+      "esm"
+    ]
   }
 }
