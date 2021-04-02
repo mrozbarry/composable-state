@@ -7,6 +7,9 @@ export const merge = (immutableAction) => (state) => ({
   ...handleAction(state, immutableAction),
 });
 
+export const concat = (immutableAction) => (state) => state
+  .concat(handleAction(state, immutableAction));
+
 export const setIn = (key, immutableAction) => (state) => {
   const value = Array.isArray(state)
     ? [...state]
@@ -21,7 +24,7 @@ export const replace = (object) => (previous) => typeof object === 'function'
   ? object(previous)
   : object;
 
-export const select = (path, immutableAction) => (state) => {
+export const selectArray = (path, immutableAction) => (state) => {
   if (path.length === 0) {
     return handleAction(state, immutableAction);
   }
@@ -30,10 +33,30 @@ export const select = (path, immutableAction) => (state) => {
 
   return handleAction(state, setIn(
     key,
-    select(path.slice(1), immutableAction)
+    selectArray(path.slice(1), immutableAction)
   ));
 };
 
-export const update = () => () => null;
+export const select = (path, immutableAction) => selectArray(
+  path.split('.'),
+  immutableAction,
+);
+
+export const selectAll = (pathsWithActions) => (state) => {
+  return Object.keys(pathsWithActions).reduce((memo, path) => {
+    return handleAction(memo, select(path, pathsWithActions[path]));
+  }, state);
+};
+
+export const collect = (immutableActions) => (state) => {
+  return immutableActions.reduce(
+    (memo, action) => handleAction(memo, action),
+    state,
+  );
+};
+
+export const map = (fn) => replace(
+  array => array.map((value, index) => handleAction(value, fn(value, index)))
+);
 
 export default handleAction;
