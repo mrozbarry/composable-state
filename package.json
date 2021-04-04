@@ -7,7 +7,9 @@
   "license": "MIT",
   "scripts": {
     "test": "nyc ava",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "prepublishOnly": "yarn build",
+    "push": "yarn test && yarn publish"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^18.0.0",
