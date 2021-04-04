@@ -1,15 +1,20 @@
 {
-  "name": "deepImmutable",
+  "name": "compose-state",
   "version": "0.0.1",
-  "main": "index.js",
+  "browser": "compose-state.umd.js",
+  "main": "compose-state.cjs.js",
+  "module": "src/index.js",
   "license": "MIT",
   "scripts": {
-    "test": "nyc ava"
+    "test": "nyc ava",
+    "build": "rollup -c"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^18.0.0",
     "ava": "^3.15.0",
     "esm": "^3.2.25",
-    "nyc": "^15.1.0"
+    "nyc": "^15.1.0",
+    "rollup": "^2.44.0"
   },
   "ava": {
     "files": [
