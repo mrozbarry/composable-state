@@ -49,6 +49,32 @@ result:
 */
 ```
 
+And for comparison, here's the *worst case* code if you weren't using compose-state:
+
+```javascript
+const immutableCopyOfState = {
+  ...myState,
+  some: {
+    ...myState.some,
+    with: {
+      ...myState.some.with,
+      deep: {
+        ...myState.some.with.deep,
+        properties: !myState.some.with.deep.properties,
+      },
+    },
+  },
+  and: {
+    ...myState.and,
+    arrays: myState.and.arrays.map(value => value * 3),
+  },
+}
+```
+
+If you are 100% rebuilding your state from scratch, maybe you wouldn't need the additional spreads, but that's not the common pattern I've seen or written in my state management-driven applications.
+
+---
+
 ## All methods:
 
  - Entry points:
