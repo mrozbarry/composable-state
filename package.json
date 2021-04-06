@@ -1,5 +1,5 @@
 {
-  "name": "compose-state",
+  "name": "composable-state",
   "version": "0.0.1",
   "browser": "compose-state.umd.js",
   "main": "compose-state.cjs.js",
