@@ -1,6 +1,6 @@
 import test from 'ava';
 import {
-  compose,
+  composable,
   merge,
   concat,
   replace,
@@ -9,12 +9,11 @@ import {
   setIn,
   collect,
   map,
-  splice,
   range,
 } from './index.js';
 
 test('can update a top level variable', (t) => {
-  const state = compose(
+  const state = composable(
     { text: 'hello' },
     merge({ text: 'goodbye' }),
   );
@@ -23,7 +22,7 @@ test('can update a top level variable', (t) => {
 });
 
 test('merge preserves items', (t) => {
-  const state = compose(
+  const state = composable(
     { foo: [], text: 'hello' },
     merge({ text: 'goodbye' }),
   );
@@ -32,7 +31,7 @@ test('merge preserves items', (t) => {
 });
 
 test('replace completely changes the object', (t) => {
-  const state = compose(
+  const state = composable(
     { foo: [], text: 'hello' },
     replace({ done: true }),
   );
@@ -41,7 +40,7 @@ test('replace completely changes the object', (t) => {
 });
 
 test('can update a single value in an array', (t) => {
-  const state = compose(
+  const state = composable(
     [10, 9, 8, 7],
     setIn(1, 999),
   );
@@ -50,7 +49,7 @@ test('can update a single value in an array', (t) => {
 });
 
 test('can select deeply and update an item', (t) => {
-  const state = compose(
+  const state = composable(
     { a: { b: { c: true } } },
     select('a.b.c', replace(false)),
   );
@@ -59,7 +58,7 @@ test('can select deeply and update an item', (t) => {
 });
 
 test('can replace with callback', (t) => {
-  const state = compose(
+  const state = composable(
     [10, 9, 8, 7],
     setIn(1, replace((old) => old + 1)),
   );
@@ -67,8 +66,8 @@ test('can replace with callback', (t) => {
   t.deepEqual(state, [10, 10, 8, 7]);
 });
 
-test('can compose multiple deep updates together', (t) => {
-  const state = compose({
+test('can composable multiple deep updates together', (t) => {
+  const state = composable({
     a: {
       b: true,
       c: [1, 2, 3],
@@ -97,7 +96,7 @@ test('can compose multiple deep updates together', (t) => {
 });
 
 test('can perform multiple updates on a single point', (t) => {
-  const state = compose({ value: 1 }, select('value', collect([
+  const state = composable({ value: 1 }, select('value', collect([
     replace(v => v * 5),
     replace(v => v - 1),
     replace(v => v * v),
@@ -107,37 +106,25 @@ test('can perform multiple updates on a single point', (t) => {
 });
 
 test('can concat arrays', (t) => {
-  const state = compose([1, 2, 3], concat([4, 5, 6]));
+  const state = composable([1, 2, 3], concat([4, 5, 6]));
 
   t.deepEqual(state, [1, 2, 3, 4, 5, 6]);
-});
-
-test('can splice into an array to add elements', (t) => {
-  const state = compose([1, 2, 5, 6], splice(2, 0, [3, 4]));
-
-  t.deepEqual(state, [1, 2, 3, 4, 5, 6]);
-});
-
-test('can splice to delete items in an array', (t) => {
-  const state = compose([1, 2, 999, 1000, 3, 4], splice(2, 2));
-
-  t.deepEqual(state, [1, 2, 3, 4]);
 });
 
 test('can operate on a range of an array', (t) => {
-  const state = compose([1, 2, 3, 4, 5, 6], range(1, 3, map((value) => value * 2)));
+  const state = composable([1, 2, 3, 4, 5, 6], range(1, 3, map((value) => value * 2)));
 
   t.deepEqual(state, [1, 4, 6, 8, 5, 6]);
 });
 
 test('can use range to delete items in an array', (t) => {
-  const state = compose([1, 2, 99, 100, 3, 4], range(2, 2, replace([])));
+  const state = composable([1, 2, 99, 100, 3, 4], range(2, 2, replace([])));
 
   t.deepEqual(state, [1, 2, 3, 4]);
 });
 
 test('can use range to add items', (t) => {
-  const state = compose([1, 2, 5, 6], range(2, 0, replace([3, 4])));
+  const state = composable([1, 2, 5, 6], range(2, 0, replace([3, 4])));
 
   t.deepEqual(state, [1, 2, 3, 4, 5, 6]);
 });
