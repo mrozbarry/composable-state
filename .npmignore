@@ -1,0 +1,4 @@
+node_modules
+.nyc_output
+src/**/*.test.js
+*.config.js
