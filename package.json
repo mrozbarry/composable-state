@@ -1,10 +1,26 @@
 {
   "name": "composable-state",
-  "version": "0.0.1",
-  "browser": "compose-state.umd.js",
-  "main": "compose-state.cjs.js",
+  "version": "0.0.2",
+  "browser": "composable-state.umd.js",
+  "main": "composable-state.cjs.js",
   "module": "src/index.js",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrozbarry/composable-state.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mrozbarry/composable-state/issues"
+  },
+  "homepage": "https://github.com/mrozbarry/composable-state#readme",
+  "author": "Alex Barry",
+  "keywords": [
+    "state",
+    "immutable",
+    "update",
+    "functional",
+    "frp"
+  ],
   "scripts": {
     "test": "nyc ava",
     "build": "rollup -c",
