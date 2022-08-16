@@ -10,6 +10,7 @@ import {
   collect,
   map,
   range,
+  pathSplit,
 } from './index.js';
 
 test('can update a top level variable', (t) => {
@@ -127,4 +128,15 @@ test('can use range to add items', (t) => {
   const state = composable([1, 2, 5, 6], range(2, 0, replace([3, 4])));
 
   t.deepEqual(state, [1, 2, 3, 4, 5, 6]);
+});
+
+test('pathSplit can have keys with dots', (t) => {
+  const keys = pathSplit('foo.bar[example.org]test');
+
+  t.deepEqual(keys, [
+    'foo',
+    'bar',
+    'example.org',
+    'test',
+  ]);
 });

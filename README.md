@@ -86,6 +86,7 @@ If you are 100% rebuilding your state from scratch, maybe you wouldn't need the 
    - `replace`
    - `select`
    - `selectAll`
+   - `selectArray`
    - `collect`
    - `map`
    - `range`
@@ -166,7 +167,9 @@ composable({ { a: [{ b: true }] }, select('a.0.b', replace(old => !old))); // { 
 ```
 
 Select allows you to dig into your state to perform updates.
-You can specify a deep path using `'.'` as a delimiter for properties of your objects.
+You can specify a deep path using `'.'` as a delimiter for properties of your objects, which can look like `foo.bar`.
+For keys that contain a `.` character, you can wrap it in `[]` brackets, like `foo[key.with.dots]`.
+Technically, you could just use `[]` brackets, but it doesn't read as nice as the `.` dot delimiter, but that's just a matter of opinion and taste.
 Selecting a deep path creates a state context, and it allows you to perform other immutable operations within the current context.
 
 ### selectAll
@@ -188,6 +191,26 @@ composable(initialState, selectAll({
 ```
 
 SelectAll works much like select, but gives you the ability to do multiple deep operations on a single state context.
+
+### selectArray
+
+```javascript
+import { composable, selectAll, replace } from 'composable-state';
+
+const initialState = {
+  greeting: 'Hi',
+  user: {
+    name: 'Anonymous',
+  },
+};
+
+composable(initialState, selectArray(
+  ['user', 'name'],
+  replace('mrozbarry')),
+); // { greeting: 'Hi', user: { name: 'mrozbarry' } }
+```
+
+The selectArray is what select uses internally, but lets you specify the select path by an array of keys rather than a selector statement.
 
 ### collect
 

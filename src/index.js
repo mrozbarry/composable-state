@@ -37,8 +37,13 @@ export const selectArray = (path, immutableAction) => (state) => {
   ));
 };
 
+const pathSplitRegexp = /(\w+|\[[^\]]+\])/gm;
+
+export const pathSplit = (path) => Array.from(path.match(pathSplitRegexp))
+  .map(entry => entry.replace('[', '').replace(']', ''));
+
 export const select = (path, immutableAction) => selectArray(
-  path.split('.'),
+  pathSplit(path),
   immutableAction,
 );
 
